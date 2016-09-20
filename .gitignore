@@ -1,0 +1,9 @@
+CMakeFiles/
+ncurses/
+CMakeCache.txt
+cmake_install.cmake
+jarbash
+Makefile
+presence_sensor/maclist
+latex/
+html/
