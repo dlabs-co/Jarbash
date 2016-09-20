@@ -3,15 +3,14 @@
  *  \brief Jarbash main file
  */
 
-
-
+#include <locale.h>
 #include <panel.h>
 #include <cdk/cdk.h>
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
-#include <thread>
+#include <cmath>
 
 using namespace std;
 
@@ -24,11 +23,6 @@ using namespace std;
 
 void printBanner(WINDOW *win, std::ifstream &file);
 void wsystem(WINDOW *win);
-
-void test()
-{
-	cout << "Hola" << endl;
-}
 
 int main()
 {	
@@ -43,11 +37,14 @@ int main()
 	// #defines para espacios entre ventanas y esas cosas
 	// COLS = es el numero de columnas de caracteres en la pantalla (en horizontal)
 	// LINES = es el numero de lineas que tiene la pantalla (en vertical)
+	
+	setlocale(LC_ALL, "");
 	initscr();
 	start_color();
 	cbreak();
 	noecho();
-	
+	curs_set(0);
+
 	init_color(COLOR_YELLOW, 176, 176, 176);
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
 	init_pair(2, COLOR_BLUE, COLOR_BLUE);
@@ -55,7 +52,7 @@ int main()
 
 	wins[0] = newwin(lines, cols, y, x);
 	wins[1] = newwin(lines, cols, y + lines+1, x);
-	wins[2] = newwin((lines*2)+1, round(cols * 0,7), y, x + cols+1);
+	wins[2] = newwin((lines*2)+1, round(cols * 0.7), y, x + cols+1);
 	
 	
 	scr1 = initCDKScreen(wins[2]);
@@ -97,7 +94,7 @@ void printBanner(WINDOW *win, std::ifstream &file)
 	while(!file.eof()){
 	
 		if(file.peek() == '\n')
-		{	
+		{		
 			file.get();
 			b++;
 			wmove(win, b, 3);
@@ -109,14 +106,17 @@ void printBanner(WINDOW *win, std::ifstream &file)
 		}
 	}
 
-	mvwaddch(win,b, 3, ' ');
+	mvwaddstr(win, b, 3, "  ");
+
 }
 
 void wsystem(WINDOW *win)
 {
+	werase(win);
+	box(win, 0, 0);
 	FILE *in;
 	char buf[512];
-	if(!(in = popen("ls -l", "r")))
+	if(!(in = popen("cowfortune", "r")))
 	{
 		exit(1);
 	}
