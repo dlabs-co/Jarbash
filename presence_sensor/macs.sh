@@ -7,7 +7,8 @@ USER=`whoami`
 if [ $USER == "root" ]
 	then
 		echo # echo "el usuario es Root"
-	else echo " Permission denied of this user: "$USER && exit
+	else
+		echo " Permission denied of this user: "$USER && exit
 fi
 
 if [ -z "$COUNT" ]; then
