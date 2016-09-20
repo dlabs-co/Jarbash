@@ -32,7 +32,7 @@ void test()
 
 int main()
 {	
-	std::ifstream banner("test.txt", std::ifstream::in);
+	std::ifstream banner("banner", std::ifstream::in);
 	bool b_exists = false;
 	if(banner.good())
 	{
