@@ -81,7 +81,7 @@ int main()
 		
 		if(b_exists) printBanner(wins[0], banner);
 		
-		wsystem(my_wins[1]);	
+		wsystem(wins[1]);	
 		update_panels();
 		refreshCDKScreen(scr1);
 		doupdate();
