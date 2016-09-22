@@ -52,8 +52,8 @@ int main()
 
 
 	wins[0] = newwin(round(LINES/2)-2, round(COLS/3), y, x);
-	wins[1] = newwin(lines, cols, y + lines+1, x);
-	wins[2] = newwin((lines*2)+1, round(cols * 0.7), y, x + cols+1);
+	wins[1] = newwin(round(LINES/2)-2, round(COLS/2),  round(LINES/2)+2, x);
+	wins[2] = newwin(round(LINES/1)-2, round(COLS/3), y, x + round(COLS/2) + 2);
 	
 	
 	scr1 = initCDKScreen(wins[2]);
@@ -116,13 +116,13 @@ void wsystem(WINDOW *win)
 	box(win, 0, 0);
 	FILE *in;
 	char buf[2048];
-	if(!(in = popen("mpstat", "r")))
+	if(!(in = popen("mpstat -I SUM -P ON", "r")))
 	{
 		exit(1);
 	}
 	
 	int i = 2;
-	wmove(win, 1, 3);
+	wmove(win, 1, 1);
 	
 	while(!feof(in))
 	{
