@@ -11,6 +11,7 @@
 #include <fstream>
 #include <stdio.h>
 #include <cmath>
+#include <unistd.h>
 
 using namespace std;
 
@@ -31,7 +32,7 @@ int main()
 	WINDOW *wins[4];
 	PANEL  *panels[4];
 	CDKSCREEN *scr1;
-	int lines = 25, cols = 100, y = 2, x = 4;
+	int lines = 25, cols = 100, y = 1, x = 1;
 	// cambiar lines y cols por LINES y COLS (verificando si funciona)
 	// recordar verificar las proporciones
 	// #defines para espacios entre ventanas y esas cosas
@@ -50,7 +51,7 @@ int main()
 	init_pair(2, COLOR_BLUE, COLOR_BLUE);
 
 
-	wins[0] = newwin(lines, cols, y, x);
+	wins[0] = newwin(round(LINES/2)-2, round(COLS/3), y, x);
 	wins[1] = newwin(lines, cols, y + lines+1, x);
 	wins[2] = newwin((lines*2)+1, round(cols * 0.7), y, x + cols+1);
 	
@@ -69,14 +70,13 @@ int main()
 	panels[1] = new_panel(wins[1]);
 	panels[2] = new_panel(wins[2]);
 
+	if(banner.good()) printBanner(wins[0], banner); // verifica que el banner existe (fichero)
+
 	for(;;)
 	{
-		wattron(wins[0], COLOR_PAIR(1));
-		doupdate();
-		attron(A_BOLD);
-		
-		if(banner.good()) printBanner(wins[0], banner); // verifica que el banner existe (fichero)
+		usleep(300000);
 		wsystem(wins[1]);	
+		
 		update_panels();
 		refreshCDKScreen(scr1);
 		doupdate();
@@ -115,8 +115,8 @@ void wsystem(WINDOW *win)
 	werase(win);
 	box(win, 0, 0);
 	FILE *in;
-	char buf[512];
-	if(!(in = popen("cowfortune", "r")))
+	char buf[2048];
+	if(!(in = popen("mpstat", "r")))
 	{
 		exit(1);
 	}
