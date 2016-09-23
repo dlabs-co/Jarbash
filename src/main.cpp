@@ -116,7 +116,7 @@ void wsystem(WINDOW *win)
 	box(win, 0, 0);
 	FILE *in;
 	char buf[2048];
-	if(!(in = popen("mpstat -I SUM -P ON", "r")))
+	if(!(in = popen("mpstat -I SUM -P ON | sed 's/\_.*//g'", "r")))
 	{
 		exit(1);
 	}
