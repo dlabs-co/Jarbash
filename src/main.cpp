@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <cmath>
 #include <unistd.h>
+#include "cmuswrapper.h"
+
 
 using namespace std;
 
@@ -23,12 +25,14 @@ using namespace std;
  */
 
 void printBanner(WINDOW *win, std::ifstream &file);
-void wsystem(WINDOW *win);
+void wsystem(WINDOW *win, char* command);
 
 int main()
 {	
 	std::ifstream banner("banner", std::ifstream::in);
 
+	std::ifstream jarbash("jarbash.txt", std::ifstream::in);
+	
 	WINDOW *wins[4];
 	PANEL  *panels[4];
 	CDKSCREEN *scr1;
@@ -39,7 +43,7 @@ int main()
 	// COLS = es el numero de columnas de caracteres en la pantalla (en horizontal)
 	// LINES = es el numero de lineas que tiene la pantalla (en vertical)
 	
-	setlocale(LC_ALL, "");
+	//setlocale(LC_ALL, "");
 	initscr();
 	start_color();
 	cbreak();
@@ -51,8 +55,8 @@ int main()
 	init_pair(2, COLOR_BLUE, COLOR_BLUE);
 
 
-	wins[0] = newwin(round(LINES/2)-2, round(COLS/3), y, x);
-	wins[1] = newwin(round(LINES/2)-2, round(COLS/2),  round(LINES/2)+2, x);
+	wins[0] = newwin(round(LINES/2)-2, round(COLS/2), y, x);
+	wins[1] = newwin(round(LINES/2)-1, round(COLS/2),  round(LINES/2), x);
 	wins[2] = newwin(round(LINES/1)-2, round(COLS/3), y, x + round(COLS/2) + 2);
 	
 	
@@ -75,8 +79,9 @@ int main()
 	for(;;)
 	{
 		usleep(300000);
-		wsystem(wins[1]);	
-		
+		wsystem(wins[2], "cat jarbash.txt");
+		//std::string string = getCurrent();	
+		//wprintw(wins[2], string.c_str());
 		update_panels();
 		refreshCDKScreen(scr1);
 		doupdate();
@@ -100,6 +105,10 @@ void printBanner(WINDOW *win, std::ifstream &file)
 			wmove(win, b, 3);
 			waddch(win, file.get());
 		}
+		//else if(file.peek() == EOF)
+		//{
+		//	box(win, 0, 0);
+		//}
 		else
 		{
 			waddch(win, file.get());
@@ -110,13 +119,14 @@ void printBanner(WINDOW *win, std::ifstream &file)
 
 }
 
-void wsystem(WINDOW *win)
+void wsystem(WINDOW *win, char* command)
 {
 	werase(win);
 	box(win, 0, 0);
 	FILE *in;
 	char buf[2048];
-	if(!(in = popen("mpstat -I SUM -P ON | sed 's/\_.*//g'", "r")))
+	//if(!(in = popen("mpstat -I SUM -P ON | sed 's/\_.*//g'", "r")))
+	if(!(in = popen(command,"r")))
 	{
 		exit(1);
 	}
