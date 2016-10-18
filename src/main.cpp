@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include "cmuswrapper.h"
 
-
 using namespace std;
 
 /*! \fn void printBanner(WINDOW *win, std::ifstream &file)
@@ -32,7 +31,7 @@ int main()
 	std::ifstream banner("banner", std::ifstream::in);
 
 	std::ifstream jarbash("jarbash.txt", std::ifstream::in);
-	
+
 	WINDOW *wins[4];
 	PANEL  *panels[4];
 	CDKSCREEN *scr1;
@@ -78,7 +77,7 @@ int main()
 
 	for(;;)
 	{
-		usleep(300000);
+		usleep(200000);
 		wsystem(wins[2], "cat jarbash.txt");
 		//std::string string = getCurrent();	
 		//wprintw(wins[2], string.c_str());
@@ -153,5 +152,18 @@ void wsystem(WINDOW *win, char* command)
 
 	pclose(in);
 
+
+}
+
+std::string vsystem(std::string command, int buf_lenght=100)
+{
+	FILE *in;	
+
+	if(!(in = popen(command.c_str(),"r")))
+	{
+		exit(1);
+	}
+
+	
 
 }
