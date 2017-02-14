@@ -5,14 +5,13 @@
 
 #include <locale.h>
 #include <panel.h>
-#include <cdk/cdk.h>
+#include <cdk.h>
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
 #include <cmath>
 #include <unistd.h>
-#include "cmuswrapper.h"
 
 using namespace std;
 
@@ -78,7 +77,7 @@ int main()
 	for(;;)
 	{
 		usleep(200000);
-		wsystem(wins[2], "cat jarbash.txt");
+//		wsystem(wins[2], "cat jarbash.txt");
 		//std::string string = getCurrent();	
 		//wprintw(wins[2], string.c_str());
 		update_panels();

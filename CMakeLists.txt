@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
+link_directories(/usr/local/lib/)
 project (Jarbash)
 add_executable(jarbash src/main.cpp)
+include_directories(/usr/local/include)
 include_directories(src/)
-target_link_libraries(jarbash ncursesw cdk panel) 
+target_link_libraries(jarbash cdk ncursesw panel m) 
