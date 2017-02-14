@@ -82,7 +82,6 @@ int main()
 	{
 		usleep(200000);
 		wprintw(wins[1], asd.c_str());
-		box(wins[1], 0, 0);
 		update_panels();
 		refreshCDKScreen(scr1);
 		doupdate();
